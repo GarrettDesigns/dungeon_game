@@ -131,8 +131,9 @@ def get_moves(player):
 
 def game_loop():
     monster, door, player = get_locations()
+    playing = True
 
-    while True:
+    while playing:
         clear_screen()
         draw_map(player)
         valid_moves = ', '.join(get_moves(player))
@@ -150,12 +151,15 @@ def game_loop():
             player = move_player(player, move)
             if player == monster:
                 game_over()
-                break
+                playing = False
             if player == door:
                 escaped_alive()
-                break
+                playing = False
         else:
             input('Ouch, ran into the wall!')
+    else:
+        if input('Play Again? ').lower() != 'n':
+            game_loop()
 
 print_intro()
 game_loop()
